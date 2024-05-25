@@ -2,17 +2,17 @@ const express = require('express');
 const app = express();
 
 
-
 const sequelize = require('./models/sequelize');
-const User = require('./models/User');
-const Book = require('./models/Book');
+const userRoutes = require('./routes/userRoutes');
+const bookRoutes = require('./routes/bookRoutes');
 const Borrowing = require('./models/Borrowing');
-const { body } = require('express-validator');
+
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+app.use('/users', userRoutes);
+app.use('/books', bookRoutes);
+app.use('/borrowings', borrowingRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -25,99 +25,12 @@ sequelize.sync().then(() => {
   console.error('Failed to sync database:', error);
 });
 
-app.get('/users', async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.json(users);
-  } catch (error) {
-    console.error('Error getting users:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-}
-);
-
-
-app.post('/users',
-[
-  body('name').isString().notEmpty().withMessage('Name is required')
-],
 
 
 
- (req, res) => {
-  try{
-    const newUser=  User.create({
-      name: req.body.name
-    });
-
-    res.status(201).json(newUser);
-  }catch(error){
-    console.error('Error creating user:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-
-});
 
 
-app.get('/users/:id', async (req, res) => {
-   try{
-    const userId = req.params.id;
-    const user = await User.findByPk(userId);
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ error: 'User not found' });
-    }
-   }catch(error){
-    console.error('Error getting user:', error);
-    res.status(500).json({ error: 'Internal server error' });
-   }
-}
-);
 
-
-app.get('/books', async (req, res) => {
-  try {
-    const books = await Book.findAll();
-    res.json(books);
-  } catch (error) {
-    console.error('Error getting books:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-}
-);
-
-
-app.post('/books', async (req, res) => {
-  try{
-    const newBook= await Book.create({
-      name: req.body.name
-    });
-
-    res.status(201).json(newBook);
-  }catch(error){
-    console.error('Error creating user:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-
-});
-
-
-app.get('/books/:id', async (req, res) => {
-   try{
-    const bookId = req.params.id;
-    const book = await User.findByPk(bookId);
-    if (book) {
-      res.json(book);
-    } else {
-      res.status(404).json({ error: 'Book not found' });
-    }
-   }catch(error){
-    console.error('Error getting book:', error);
-    res.status(500).json({ error: 'Internal server error' });
-   }
-}
-);
 
 app.post("/users/:userId/borrow/:bookId", async (req, res) => {
 
