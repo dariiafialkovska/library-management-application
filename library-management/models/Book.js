@@ -15,6 +15,11 @@ const Book = sequelize.define('Book', {
         type: DataTypes.INTEGER,
         allowNull: true
     },
+    isAvailable: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+    }
 }, {
     timestamps: true  
 });

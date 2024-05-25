@@ -6,12 +6,12 @@ const sequelize = require('./models/sequelize');
 const userRoutes = require('./routes/userRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const Borrowing = require('./models/Borrowing');
+const { genericErrorHandler } = require('./middlewares/errorHandler'); // Adjust the path as necessary
 
 app.use(express.json());
 
 app.use('/users', userRoutes);
 app.use('/books', bookRoutes);
-app.use('/borrowings', borrowingRoutes);
 
 
 const PORT = process.env.PORT || 3000;
@@ -25,12 +25,13 @@ sequelize.sync().then(() => {
   console.error('Failed to sync database:', error);
 });
 
+app.use(genericErrorHandler);
 
 
 
 
 
-
+/*
 
 app.post("/users/:userId/borrow/:bookId", async (req, res) => {
 
@@ -111,3 +112,5 @@ async function updateBookScore(bookId) {
   });
 
 }
+
+*/
