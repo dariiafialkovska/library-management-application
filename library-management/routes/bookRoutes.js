@@ -1,56 +1,72 @@
 const express = require('express');
 const router = express.Router();
 const { validationResult } = require('express-validator');
-const { createBookValidator } = require('../validators/validators');
+const { createBookValidator,validateBookId } = require('../validators/validators');
 const Book = require('../models/Book');
+const { errorHandler , validationErrorHandler} = require('../middlewares/errorHandler');
 
-router.get('/', async (req, res) => {
+
+router.get('/', async (req, res,next) => {
     try {
         const books = await Book.findAll();
         if (books.length === 0) {
-            // Respond with a message indicating no books are available
-            return res.status(404).json({ message: 'No books available' });
+            return res.status(404).json({
+                status: "error",
+                message: 'No books found'
+            });
         }
-        res.json(books);
+        res.status(200).json(
+            {
+                status: "success",
+                message: 'Books retrieved successfully',
+                data: books
+            }
+        );
     } catch (error) {
         console.error('Error getting books:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        next(error);
     }
 }
 );
 
 
-router.post('/', createBookValidator, async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+router.post('/', createBookValidator, validationErrorHandler, async (req, res,next) => {
     try {
         const newBook = await Book.create({
             name: req.body.name
         });
 
-        res.status(201).json(newBook);
+        res.status(201).json({
+            status: 'success',
+            message: 'Book created successfully',
+            data: newBook
+          });
     } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Error creating book:', error);
+        next(error);
     }
 
 });
 
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateBookId, validationErrorHandler,async (req, res,next) => {
     try {
         const bookId = req.params.id;
         const book = await Book.findByPk(bookId);
         if (book) {
-            res.json(book);
+            res.status(200).json({
+                status: 'success',
+                message: 'Book retrieved successfully',
+                data: book
+              });
         } else {
-            res.status(404).json({ error: 'Book not found' });
-        }
+            res.status(404).json({ 
+                status: 'error', 
+                message: 'Book not found' 
+            });        }
     } catch (error) {
         console.error('Error getting book:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        next(error);
     }
 }
 );

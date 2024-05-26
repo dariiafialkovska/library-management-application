@@ -1,6 +1,7 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('./sequelize');
-
+const User = require('./User');
+const Book = require('./Book');
 const Borrowing = sequelize.define('Borrowing', {
     id: {
         type: DataTypes.INTEGER,
@@ -27,6 +28,11 @@ const Borrowing = sequelize.define('Borrowing', {
         type: DataTypes.INTEGER,
         allowNull: true
     },
+    returned:{
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    }
 },{
     timestamps: false
 });

@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize'); 
-
+const Borrowing = require('./Borrowing');
 const Book = sequelize.define('Book', {
     id: {
         type: DataTypes.INTEGER,
@@ -23,5 +23,6 @@ const Book = sequelize.define('Book', {
 }, {
     timestamps: true  
 });
+
 
 module.exports = Book;
