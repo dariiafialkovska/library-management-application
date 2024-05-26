@@ -11,8 +11,8 @@ Node.js
 Expess.js 
 
 ## Database:
-PostgresSQL
-Sequilize
+- PostgresSQL
+- Sequilize
 
 ## Validation:
 Express Validator
