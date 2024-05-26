@@ -7,18 +7,18 @@ Library Management System is a web application that allows users to manage book 
 
 # Technologies Used:
 ## Backend:
-Node.js
-Expess.js 
+- Node.js
+- Expess.js 
 
 ## Database:
 - PostgresSQL
 - Sequilize
 
 ## Validation:
-Express Validator
+- Express Validator
 
 ## Version Control: 
-Git
+- Git
 
 
 # Endpoints Documentation
