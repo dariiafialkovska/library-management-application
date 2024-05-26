@@ -5,39 +5,39 @@ Library Management System is a web application that allows users to manage book 
 
 
 
-## Technologies Used:
-# Backend:
+# Technologies Used:
+## Backend:
 Node.js
 Expess.js 
 
-# Database:
+## Database:
 PostgresSQL
 Sequilize
 
-# Validation:
+## Validation:
 Express Validator
 
-# Version Control: 
+## Version Control: 
 Git
 
 
-## Endpoints Documentation
+# Endpoints Documentation
 This application provides several endpoints:
 
-# User Endpoints
+## User Endpoints
 GET /users: Retrieves all users.
 POST /users: Creates a new user.
 GET /users/:id: Retrieves a specific user by ID.
-# Book Endpoints
+## Book Endpoints
 GET /books: Retrieves all books.
 POST /books: Adds a new book to the library.
 GET /books/:id: Retrieves a specific book by ID.
-# Borrowing Endpoints
+## Borrowing Endpoints
 POST /users/:userId/borrow/:bookId: Allows a user to borrow a book.
 POST /users/:userId/return/:bookId: Allows a user to return a borrowed book.
 
 
-## Database Setup
+# Database Setup
 To set up the database schema, run the following command:
 Password is: postgres
 ```bash
